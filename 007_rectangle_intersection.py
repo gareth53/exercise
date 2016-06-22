@@ -111,18 +111,16 @@ class Rect:
             x, y = point
             x_in = x >= self.left and x <= self.right
             y_in = y >= self.top and y <= self.bottom
-            return x_in and y_in
+            if x_in and y_in:
+                return True
         return False
 
 def find_intersection(rect1, rect2):
     r1 = Rect(rect1)
     r2 = Rect(rect2)
-    # ensure an intersection exists
-    intersect = False
-    # TODO: tidy this into a class method and use an OR
     if r2.contains_points(r1.corners) or r1.contains_points(r2.corners):
         # we have intersection!
-        # TODO: classmethod
+        # TODO: classmethod to retrieve intersection?
         left = max(r1.left, r2.left)
         top = max(r1.top, r2.top)
         right = min(r1.right, r2.right)
