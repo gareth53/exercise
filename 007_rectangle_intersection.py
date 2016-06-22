@@ -92,23 +92,27 @@ class Rect:
         self.bottom = rect['bottom_y']
         self.top = rect['bottom_y'] - rect['height']
         self.area = rect['width'] * rect['height']
-        self.corners = [
+
+    @property
+    def corners(self):
+        return [
             [self.left, self.top],
             [self.right, self.top],
             [self.right, self.bottom],
             [self.left, self.bottom]
         ]
 
-    def contains_point(self, point):
+    def contains_points(self, points):
         """
-        point: list[x, y]
-        returns true if the point is within the rectangle
+        points: list/tuple of [x, y]
+        returns true if ANY point is within the rectangle
         """
-        x, y = point
-        x_in = x >= self.left and x <= self.right
-        y_in = y >= self.top and y <= self.bottom
-        return x_in and y_in
-
+        for point in points:
+            x, y = point
+            x_in = x >= self.left and x <= self.right
+            y_in = y >= self.top and y <= self.bottom
+            return x_in and y_in
+        return False
 
 def find_intersection(rect1, rect2):
     r1 = Rect(rect1)
@@ -116,16 +120,7 @@ def find_intersection(rect1, rect2):
     # ensure an intersection exists
     intersect = False
     # TODO: tidy this into a class method and use an OR
-    for corner in r1.corners:
-        if r2.contains_point(corner):
-            intersect = True
-            break
-    if not intersect:
-        for corner in r2.corners:
-            if r1.contains_point(corner):
-                intersect = True
-                break
-    if intersect:
+    if r2.contains_points(r1.corners) or r1.contains_points(r2.corners):
         # we have intersection!
         # TODO: classmethod
         left = max(r1.left, r2.left)
@@ -138,8 +133,6 @@ def find_intersection(rect1, rect2):
             'width': right - left,
             'height': bottom - top
         }
-
-
     return None
 
 def test(func):
