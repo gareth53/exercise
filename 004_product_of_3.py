@@ -1,3 +1,18 @@
+"""
+https://www.interviewcake.com/question/python/highest-product-of-3
+
+Given a list_of_ints, find the highest_product you can get from three of the
+integers.
+
+The input list_of_ints will always have at least three integers.
+
+Gotchas
+Does your function work with negative numbers? If list_of_ints is [-10, -10, 1, 3, 2][−10,−10,1,3,2] we should return 300300 (which we get by taking -10 * -10 * 3−10∗−10∗3).
+
+We can do this in O(n)O(n) time and O(1)O(1) space.
+
+"""
+
 def highest_product_of3(arg):
     """
     given a list of integers/floats, returns the highest product
