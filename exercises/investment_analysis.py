@@ -14,48 +14,6 @@ from 1 purchase and 1 sale of 1 Apple stock yesterday.
 You must buy before you sell. You may not buy and sell in the same time step (at least 1 minute must pass)
 """
 
-testcases = [
-    {
-        'desc': 'constant rise',
-        'input': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-        'expect': (0, 9, 9)
-    },
-    {
-        'desc': 'constant fall',
-        'input': [10, 9, 7, 5, 3, 1],
-        'expect': (0, 1, -1)
-    },
-    {
-        'desc': 'zero profit',
-        'input': [20, 19, 19, 15, 13, 11, 9],
-        'expect': (1, 2, 0)
-    },
-    {
-        'desc': 'invest in first (high) wave',
-        'input': [8, 10, 12, 1, 2, 3],
-        'expect': (0, 2, 4)
-    },
-    {
-        'desc': 'invest in second wave',
-        'input': [1, 2, 3, 4, 3, 2, 3, 4, 5, 4],
-        'expect': (0, 8, 4)
-    },
-    {
-        'desc': 'invest late on a wobbly day',
-        'input': [10, 10, 2, 20, 3, 12, 1, 20, 1, 19],
-        'expect': (6, 7, 19)
-    },
-    {
-        'desc': 'low before peak',
-        'input': [1, 4, 5, 6, 9, 10, 12, 11, 9, 4, 20, 19, 2],
-        'expect': (0, 10, 19)
-    },
-    {
-        'desc': 'peak before low',
-        'input': [7, 8, 9, 10, 9, 8, 7, 6, 5, 4, 5, 4, 5, 6],
-        'expect': (0, 3, 3)
-    }
-]
 
 
 def compare_all_possible_tactics(prices):
@@ -111,17 +69,3 @@ def analyse_in_single_loop(prices):
 
     return buy, sell, profit(buy, sell)
     
-
-def testrunner(func):
-    for test in testcases:
-        actual = func(test['input'])
-        if actual == test['expect']:
-            print "OK", test['desc']
-        else:
-            print "FAIL", test['desc']
-            print "Expected", test['expect']
-            print "Actual", actual
-
-
-testrunner(compare_all_possible_tactics)
-testrunner(analyse_in_single_loop)

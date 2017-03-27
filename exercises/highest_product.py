@@ -1,47 +1,8 @@
-from datetime import datetime
 """
 Given a list_of_ints, find the highest_product you can get from three of the integers.
 The input list_of_ints will always have at least three integers.
 """
 
-testcases = [
-	{
-		'desc': "Simplest example",
-		'input': [0, 1, 2, 3],
-		'expect': 6
-	},
-	{
-		'desc': "Shortest list, a zero kaiboshes all",
-		'input': [0, 1, 2],
-		'expect': 0
-	},
-	{
-		'desc': "Shortest list, with a negative number",
-		'input': [-1, 1, 2],
-		'expect': -2
-	},
-	{
-		'desc': "Negative Numbers",
-		'input': [-10, -10, 1, 2, 3],
-		'expect': 300
-	},
-	{
-		'desc': "Long list",
-		'input': [0, 1, 2, 3],
-		'expect': 6
-	},
-	{
-		'desc': "list with descending values",
-		'input': [10, 9, 2, 1],
-		'expect': 180
-	},
-	{
-		'desc': "Really long list",
-		'input': 20 * [10, 9, 2, 1],
-		'expect': 1000
-	}
-
-]
 
 def get_highest_product(numbers):
 	"""
@@ -82,22 +43,3 @@ def get_highest_product2(numbers):
 					if not output or product > output:
 						output = product
 	return output
-
-
-
-
-
-
-def test(func):
-	for test in testcases:
-		st = datetime.now()
-		actual = func(test['input'])
-		end = datetime.now()
-		res = actual ==  test['expect']
-		if res:
-			print "%s: OK (%sms)" % (test['desc'], (end - st).microseconds)
-		else:
-			print "%s: FAIL, expected: %s, actual: %s" % (test['desc'], test['expect'], actual)
-
-
-test(get_highest_product2)

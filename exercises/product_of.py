@@ -20,30 +20,8 @@ by calculating:
 Do not use division in your solution.
 """
 
-testcases = [
-	{
-		'desc': 'Given example',
-		'input': [1, 7, 3, 4],
-		'expect': [84, 12, 28, 21]
-	},
-	{
-		'desc': 'List contains a zero',
-		'input': [2, 2, 0, 2],
-		'expect': [0, 0, 8, 0]
-	},
-	{
-		'desc': 'List has 1 item',
-		'input': [2],
-		'expect': []
-	},
-	{
-		'desc': 'Empty list',
-		'input': [],
-		'expect': []
-	}
-]
 
-def get_products_of_all_ints_except_at_index(num_list):
+def get_products(num_list):
 	"""
 	this is the slow, long-winded approach
 	"""
@@ -62,7 +40,8 @@ def get_products_of_all_ints_except_at_index(num_list):
 			results.append(product)
 	return results
 
-def get_products_of_all_ints_except_at_index_tuned(num_list):
+
+def get_products_tuned(num_list):
 	"""
 	we're doing lots of repeated calculations
 	so let's do those up front....
@@ -108,18 +87,3 @@ def get_products_of_all_ints_except_at_index_tuned(num_list):
 		post = beyond[x+1] if x+1 < list_len else 1
 		products.append(pre*post)
 	return products
-
-
-
-def test(func):
-	for test in testcases:
-		actual = func(test['input'])
-		if actual == test['expect']:
-			print "OK", test['desc']
-		else:
-			print "FAIL", test['desc']
-			print "Expected", test['expect']
-			print "Actual", actual
-
-test(get_products_of_all_ints_except_at_index)
-test(get_products_of_all_ints_except_at_index_tuned)

@@ -1,5 +1,5 @@
 import unittest
-from rectangle import find_intersection, Rect
+from exercises.rectangle_intersection import find_intersection
 
 
 class TestCases(unittest.TestCase):
