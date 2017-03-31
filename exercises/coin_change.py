@@ -60,7 +60,7 @@ class ChangeCalculator:
 		self.denominations = denominations
 		self.coin_substitutions = {}
 
-	def _generate_coin_substituions(self, coin_value)
+	def _generate_coin_substitutions(self)
 		"""
 		first cut: how can coins be replaced by the 2 next smallest currencies?
 		we want the output to look so:
@@ -74,7 +74,14 @@ class ChangeCalculator:
 		}
 		we could then generate all possible replacements of a coin with a recursive calculation
 		"""
+		coin_map = {}
 		subs = []
+		return coin_map
+
+	def _generate_coin_substitution(self, coin)
+		"""
+		"""
+		return []
 
 	def get_all_combinations(self, target):
 		return []
