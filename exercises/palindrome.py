@@ -1,17 +1,10 @@
 import unittest
 import math
 import re
+from collections import deque
 """
 find the longest palindrome in a string. 
 """
-
-tests = [
-	("madam I'm Adam", 										["madam"]), 				# one palindrome
-	("I ama containing two three letter palindromes: dud", 	["ama", 'dud']),			# two
-	("palindromeemordnilap", 								["palindromeemordnilap"]), 	# whole string
-	("A longnol palindrom and a short oneno", 				["longnol"]),				# two palindroms, one longer
-	("pop dood mum, eve",									['dood']),								
-]
 
 
 class PalindromeFinder:
@@ -41,19 +34,10 @@ class PalindromeFinder:
 
 	@staticmethod
 	def _is_palindrome(str):
-		strlen = len(str)
-		midpoint_lft = midpoint_rght = int(math.ceil(strlen/2))
-		even = strlen % 2
-		if not even:
-			midpoint_lft -= 1
-		for x in range(0, midpoint_lft+1):
-			back  = str[midpoint_lft-x]
-			forwd = str[midpoint_rght+x]
-			if back != forwd:
+		chars = deque(str)
+		try:
+			if chars.pop() != chars.popleft():
 				return False
+		except IndexError:
+			return True
 		return True
-
-
-
-
-
