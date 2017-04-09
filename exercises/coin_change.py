@@ -54,15 +54,14 @@ import copy
 class ChangeCalculator:
 
 	def __init__(self, denominations):
-		denominations.sort()
-		denominations.reverse()
-		# TODO: this on a single pass
+		denominations.sort(reverse=True)
 		self.denominations = denominations
 		self.coin_substitutions = {}
 
-	def _generate_coin_substitutions(self)
+	def _generate_coin_substitutions(self):
 		"""
 		first cut: how can coins be replaced by the 2 next smallest currencies?
+		(but next 2 smallest currencies is an assumption of the pattern of denominations)
 		we want the output to look so:
 		{
 			1: [],
@@ -75,10 +74,11 @@ class ChangeCalculator:
 		we could then generate all possible replacements of a coin with a recursive calculation
 		"""
 		coin_map = {}
-		subs = []
-		return coin_map
+		for coin in self.denominations:
+			subs = []
+			return coin_map
 
-	def _generate_coin_substitution(self, coin)
+	def _generate_coin_substitutions(self, coin):
 		"""
 		"""
 		return []
@@ -89,15 +89,17 @@ class ChangeCalculator:
 	def _replace_coins(self, coins):
 		"""
 		replace all the occurrences of the larger coins
-		with all potential smaler patterns
+		with all potential smaller patterns
+		but only do each replacement once...
 		"""
 		return coins
 
 	def _get_biggest_coins(self, denominations, target):
 		"""
-		gets the biggest coins + leftover
+		gets the biggest coins + leftover in prep for doing best calculation
 		"""
-		for val in denominations:
+		# TODO: filter dedominations ot those <= target
+ 		for val in denominations:
 			if val <= target:
 				coins = [val] * (target/val)
 				leftover = target % val

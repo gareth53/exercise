@@ -1,6 +1,14 @@
 import unittest
 from exercises.coin_change import ChangeCalculator
 
+class TestChangeCalcInitMethod(unittest.TestCase):
+
+	def test_sorting(self):
+		denominations = [100, 50, 1, 5, 10, 20, 2, 200]
+		cc = ChangeCalculator(denominations)
+		self.assertEqual(cc.denominations, [200, 100, 50, 20, 10, 5, 2, 1])
+
+
 
 class TestMethodGetBiggestCoins(unittest.TestCase):
 
@@ -36,8 +44,16 @@ class TestMethodGetBestSolution(unittest.TestCase):
 		cc = ChangeCalculator(denominations)
 		self.assertEqual(cc._get_best_solution(amount), expect)
 
+	def test_target_is_less_than_large_denominations(self):
+		denominations = [1, 2, 5, 10, 20, 50, 100]
+		amount = 3
+		expect = [2, 1]
+		cc = ChangeCalculator(denominations)
+		self.assertEqual(cc._get_best_solution(amount), expect)
 
-class TestSolution:
+
+
+class TestFullSolution:
 	def test_simple2(self):
 		assert True
 #		'denominations': [1, 2],
