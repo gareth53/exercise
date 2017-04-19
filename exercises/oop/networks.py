@@ -5,65 +5,71 @@ The inhabitants of a village are represented, along with their connections. Find
 
 class Village:
 
-    inhabitants = []
+    def __init__(self, name=None):
+        self.inhabitants = []
+        self.name = name or "Anonymous Village"
 
     def add_inhabitant(self, inhabitant):
+        inhabitant.village = self
         self.inhabitants.append(inhabitant)
 
-    def get_random_inhabitant(self):
-        return self.inhabitants[math.random(len(self.inhabitantats)) - 1]
-
-    def _get_most_connected(self, n=1):
+    def get_most_connected(self):
         inhabitants = {}
         for inhabit in self.inhabitants:
-            i = inhabitants.get(inhabit.connections_count, [])
-            inhabitants[inhabit.connections_count] = i.append(inhabit)
+            i = inhabitants.get(inhabit.connection_count, [])
+            i.append(inhabit)
+            inhabitants[inhabit.connection_count] = i
         keys = inhabitants.keys()
         if not keys:
             return None
         keys = sorted(keys)
         keys.reverse()
-        return inhabitants[keys[:n]]
+        return inhabitants[keys[0]]
 
 
 class Inhabitant:
-    name = ""
-    village = village
-    connection_count = 0
-    connections = []
+
+    def __init__(self, name=None, village=None):
+        self.name = name or "Anonymous"
+        self.village = village
+        self.connection_count = 0
+        self.connections = []
 
     def connect(self, inhabitant):
+        """
+        connect two inhabitants
+        """
         connection = Connection(self, inhabitant)
-        self.add_connection(connection)
-        inhabitant.add_connection(connection)
+        #TODO - do we need this connection? If so, should we store a reference to it?
+        self._add_connection(inhabitant)
+        inhabitant._add_connection(self)
 
-    def add_connection(self, inhabitant):
-        self.connnection_count += 1
-        connection = Connection(self, inhabitant)
-        self.connections.append(connection)
+    def _add_connection(self, inhabitant):
+        self.connection_count += 1
+        self.connections.append(inhabitant)
+
+    def connected_to(self, inhabitant):
+        """
+        returns True if this INhabitan is connected to the 
+        inhabitant argument
+        :param inhabitant: Inhabitant instance
+        :returns: boolean
+        """
+        return inhabitant in self.connections
+
+    def find_connection_to(self, inhabitant):
+        """
+        returns a list of inhabitants who are connected, starts with self, ends with inhabitant
+        it should be the shortest possible chain
+        """
+        return []
+
+    def __str__(self):
+        return "{} ({})".format(self.name, self.connection_count)
 
 
 class Connection:
     
     def __init__(self, inhabitant1, inhabitant2):
-        self.inhabitant1 = inhabitant1
-        self.inhabitant2 = inhabitant2
-
-
-def setup():
-    v = Village()
-    for x in range(0, 50):
-        inhabitant = Inhabitant('Person %d' % x, v)
-        v.add_inhabitant(inhabitant)
-    for y in range(0, 300):
-        inhabitant1 = v.get_random_inhabitant()
-        inhabitant2 = v.get_random_inhabitant()
-        inhabitant1.connect(inhabitant2)
-
-
-def find_most_connected(village):
-
-
-
-
+        self.inhabitants = [inhabitant1, inhabitant2]
 
