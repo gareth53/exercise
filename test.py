@@ -14,7 +14,6 @@ if __name__ == '__main__':
 		directory = "tests"
 		pattern = "*"
 
-	print(directory, pattern)
 	loader = unittest.TestLoader()
 	tests = loader.discover(directory, pattern=pattern)
 
