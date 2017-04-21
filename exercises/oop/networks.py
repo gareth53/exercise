@@ -72,12 +72,31 @@ class Inhabitant:
         return inhabitant in self.connections
 
     def find_connection_to(self, inhabitant):
+        # build larger and larger connection maps from each inhabitant
+        # the moment we find an overlap between the sets of inhabitants
+        # is the moment we have a full path :)
+        return []
+
+    def build_connection_map(self, inhabitant):
         """
         returns a list of inhabitants who are connected, starts with self, ends with inhabitant
         it should be the shortest possible chain
         """
-        return []
 
-    def __str__(self):
-        return "{} ({})".format(self.name, self.connection_count)
+        # technique here is to do a breadth-first search
+        # from both inhabitants, once we find a common connection, we stitch the two paths together
+        connection_map = {}
+        for inhab in self.connections:
+            connection_map[inhab] = [inhab]
+        # recursive loop - needs a sane limit one would think...
+        for val in connection_map.values():
+            final_chain = val[-1]
+            for inhab in final_chain.connections:
+                if inhab not in connection_map.keys():
+                    connection_map[inhab] = val + [inhab]
+        self.connection_map = connection_map
+
+
+    def __repr__(self):
+        return "<{} ({})>".format(self.name, self.connection_count)
 
