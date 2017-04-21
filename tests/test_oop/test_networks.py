@@ -1,6 +1,6 @@
 import unittest
 
-from exercises.oop.networks import Village, Inhabitant, Connection
+from exercises.oop.networks import Village, Inhabitant
 
 class TestVillage(unittest.TestCase):
 
@@ -54,6 +54,18 @@ class TestInhabitant(unittest.TestCase):
 		loki.connect(hagrid)
 		self.assertFalse(loki.connected_to(thor))
 
-	def test_find_connection_to(self):
-		assert False
+	def test_unconnect(self):
+		carl = Inhabitant(name="Carl")
+		lenny = Inhabitant(name="Lenny")
+		carl.connect(lenny)
+		self.assertTrue(carl.connected_to(lenny))
+		carl.unconnect(lenny)
+		self.assertEqual(carl.connection_count, 0)
+		self.assertEqual(lenny.connection_count, 0)
+		self.assertFalse(carl.connected_to(lenny))
+		self.assertFalse(lenny.connected_to(carl))
+
+
+#	def test_find_connection_to(self):
+#		assert False
 

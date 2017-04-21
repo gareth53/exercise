@@ -35,11 +35,25 @@ class Inhabitant:
         self.connection_count = 0
         self.connections = []
 
+    def unconnect(self, inhabitant):
+        """
+        connect two inhabitants
+        """
+        self._remove_connection(inhabitant)
+        inhabitant._remove_connection(self)
+
+    def _remove_connection(self, inhabitant):
+        """
+        connect two inhabitants
+        """
+        self.connections = filter(lambda x: x != inhabitant, self.connections)
+        self.connection_count -= 1
+
     def connect(self, inhabitant):
         """
         connect two inhabitants
         """
-        connection = Connection(self, inhabitant)
+#        connection = Connection(self, inhabitant)
         #TODO - do we need this connection? If so, should we store a reference to it?
         self._add_connection(inhabitant)
         inhabitant._add_connection(self)
@@ -50,7 +64,7 @@ class Inhabitant:
 
     def connected_to(self, inhabitant):
         """
-        returns True if this INhabitan is connected to the 
+        returns True if this Inhabitant is connected to the 
         inhabitant argument
         :param inhabitant: Inhabitant instance
         :returns: boolean
@@ -66,10 +80,4 @@ class Inhabitant:
 
     def __str__(self):
         return "{} ({})".format(self.name, self.connection_count)
-
-
-class Connection:
-    
-    def __init__(self, inhabitant1, inhabitant2):
-        self.inhabitants = [inhabitant1, inhabitant2]
 
