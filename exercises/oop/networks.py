@@ -71,32 +71,65 @@ class Inhabitant:
         """
         return inhabitant in self.connections
 
-    def find_connection_to(self, inhabitant):
-        # build larger and larger connection maps from each inhabitant
-        # the moment we find an overlap between the sets of inhabitants
-        # is the moment we have a full path :)
-        return []
+    def get_connection_map(self, chain=None):
+        if not chain:
+            chain = [self]
+        connection_map = {inhab: chain + [inhab] for inhab in self.connections}
+        self.connection_map = connection_map
+        return connection_map
 
-    def build_connection_map(self, inhabitant):
+    def find_connection_to(self, inhabitant):
         """
         returns a list of inhabitants who are connected, starts with self, ends with inhabitant
         it should be the shortest possible chain
         """
-
         # technique here is to do a breadth-first search
         # from both inhabitants, once we find a common connection, we stitch the two paths together
-        connection_map = {}
-        for inhab in self.connections:
-            connection_map[inhab] = [inhab]
-        # recursive loop - needs a sane limit one would think...
-        for val in connection_map.values():
-            final_chain = val[-1]
-            for inhab in final_chain.connections:
-                if inhab not in connection_map.keys():
-                    connection_map[inhab] = val + [inhab]
-        self.connection_map = connection_map
+        if self.connected_to(inhabitant):
+            return [self, inhabitant]
+        self.get_connection_map()
+        inhabitant.get_connection_map()
 
+        for x in range(0, 3):
+            self.add_layer_to_connections_map()
+            inhabitant.add_layer_to_connections_map()
+
+            overlap = self.find_connection(self, inhabitant)
+            if overlap:
+                return self.build_connection_path(overlap.pop(), inhabitant)
+        return None
+
+    def build_connection_path(self, connector, inhabitant):
+        """
+        since we're calling this method we assume that the connector is a key
+        that is common to both inhabitant's connection_maps
+        """
+        path_start = self.connection_map[connector][:-1]
+        path_end = inhabitant.connection_map[connector]
+        path_end.reverse()
+        return path_start + path_end
+
+    @staticmethod
+    def find_connection(inhabitant1, inhabitant2):
+        i1 = set(inhabitant1.connection_map.keys())
+        i2 = set(inhabitant2.connection_map.keys())
+        return i1.intersection(i2)
+
+    def add_layer_to_connections_map(self):
+        """
+        grows the connections by one layer
+        i.e. adds the contacts of contacts
+        """
+        new_connections = {}
+        for val in self.connection_map.values():
+            final_chain = val[-1]
+            connections_to_add = final_chain.get_connection_map(chain=val)
+            new_connections.update(connections_to_add)
+        # now knit the new connections into the connection_map
+        for key, val in new_connections.items():
+            if key not in self.connection_map and key != self:
+                self.connection_map[key] = val
 
     def __repr__(self):
-        return "<{} ({})>".format(self.name, self.connection_count)
+        return "<{}>".format(self.name, self.connection_count)
 

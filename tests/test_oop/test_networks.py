@@ -76,12 +76,29 @@ class TestInhabitantConnector(unittest.TestCase):
 		self.bob.connect(self.cal)
 		self.don = Inhabitant(name="Don")
 		self.cal.connect(self.don)
+		self.egg = Inhabitant(name="Egbert")
 
-	def test_build_connection_map(self):
-		self.alf.build_connection_map(self.bob)
-		print(self.alf.connection_map)
+	def test_direct_connection(self):
+		connection = self.alf.find_connection_to(self.bob)
+		self.assertEqual(connection, [self.alf, self.bob])
 
-	def Xtest_a_loop_of_connections_is_handled(self):
+	def test_level2_connection(self):
+		connection = self.alf.find_connection_to(self.cal)
+		self.assertEqual(connection, [self.alf, self.bob, self.cal])
+
+	def test_level3_connection(self):
+		connection = self.alf.find_connection_to(self.don)
+		self.assertEqual(connection, [self.alf, self.bob, self.cal, self.don])
+
+	def test_level4_connection(self):
+		connection = self.alf.find_connection_to(self.cal)
+		self.assertEqual(connection, [self.alf, self.bob, self.cal])
+
+	def test_no_connection(self):
+		connection = self.alf.find_connection_to(self.egg)
+		self.assertIsNone(connection, None)
+
+	def test_a_loop_of_connections_is_handled(self):
 		alpha = Inhabitant()
 		bravo = Inhabitant()
 		charlie = Inhabitant()
@@ -92,10 +109,7 @@ class TestInhabitantConnector(unittest.TestCase):
 		charlie.connect(delta)
 		delta.connect(bravo)
 
-	def Xtest_direct_connection(self):
-		connection = self.alf.find_connection_to(self.bob)
-		self.assertEqual(connection, [self.bob])
+		connection = alpha.find_connection_to(bravo)
+		self.assertEqual(connection, [alpha, bravo])
 
-	def Xtest_level2_connection(self):
-		connection = self.alf.find_connection_to(self.cal)
-		self.assertEqual(connection, [self.bob, self.cal])
+
