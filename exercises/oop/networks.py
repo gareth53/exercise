@@ -78,7 +78,7 @@ class Inhabitant:
         self.connection_map = connection_map
         return connection_map
 
-    def find_connection_to(self, inhabitant):
+    def find_connection_to(self, inhabitant, recursion_limit=4):
         """
         returns a list of inhabitants who are connected, starts with self, ends with inhabitant
         it should be the shortest possible chain
@@ -90,7 +90,7 @@ class Inhabitant:
         self.get_connection_map()
         inhabitant.get_connection_map()
 
-        for x in range(0, 3):
+        for x in range(0, recursion_limit):
             self.add_layer_to_connections_map()
             inhabitant.add_layer_to_connections_map()
 
