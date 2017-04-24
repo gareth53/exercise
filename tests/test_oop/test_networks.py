@@ -112,4 +112,20 @@ class TestInhabitantConnector(unittest.TestCase):
 		connection = alpha.find_connection_to(bravo)
 		self.assertEqual(connection, [alpha, bravo])
 
+	def test_recursion_limit(self):
+		prev = None
+		inhabitants = []
+		for x in range(0, 7):
+			i = Inhabitant(name="Person %d" % x)
+			inhabitants.append(i)
+			if prev:
+				i.connect(prev)
+			prev = i
+
+		connection = inhabitants[0].find_connection_to(inhabitants[-1], search_depth=3)
+		self.assertFalse(connection)
+
+		connection = inhabitants[0].find_connection_to(inhabitants[-1])
+		self.assertTrue(connection)
+
 
