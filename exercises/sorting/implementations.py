@@ -72,6 +72,8 @@ def mergesort(arr):
 	return merge(left, right)
 
 
+def sort_dict(dict_list, key):
+	return sorted(dict_list, key=lambda x: x[key])
 
 
 
