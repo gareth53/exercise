@@ -71,17 +71,19 @@ def mergesort(arr):
 	# merge the now-sorted sublists.
 	return merge(left, right)
 
-
-def sort_dict(dict_list, sort_key=None, sort_keys=None):
+import types
+def sort_dict(dict_list, key=None):
 	"""
 	:param dict_list: <list> of <dict>s [{}, {}]
 	:param sort_keys: <list> of <str>
 	:return: <list>
 	"""
-	if sort_key:
-		return sorted(dict_list, key=lambda x: x[sort_key])
-	elif sort_keys:
-		return sorted(dict_list, key=lambda x: "".join([x[key] for key in sort_keys]))
+	if key.type not in (types.ListType, types.StringType, types.TupleType):
+		raise TyepError("key must be a string or a list")
+	if key:
+		if isinstance(key, types.StringType):
+			key = [key]
+		return sorted(dict_list, key=lambda x: "".join([x[k] for k in key]))
 	return dict_list
 
 

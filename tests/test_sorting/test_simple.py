@@ -67,7 +67,7 @@ class TestDictSort(unittest.TestCase):
 			}
 		]
 		expected_order = ('Horse', 'Zebra', 'Aardvaark', 'Wolf')
-		ordered_dict = sort_dict(li, sort_keys=['date', 'name'])
+		ordered_dict = sort_dict(li, key=['date', 'name'])
 		for x, d in enumerate(ordered_dict):
 			self.assertEqual(expected_order[x], d['name'])
 
