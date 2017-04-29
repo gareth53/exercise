@@ -79,9 +79,7 @@ def sort_dict(dict_list, key=None):
 	:return: <list>
 	"""
 	if key:
-		if type(key) not in (list, str, tuple):
-			raise TypeError("key must be a string or a list")
-		if isinstance(key, str):
+		if not type(key) in (list, tuple):
 			return sorted(dict_list, key=lambda x: x[key])
 		else:
 			return sorted(dict_list, key=lambda x: "".join([x[k] for k in key]))
