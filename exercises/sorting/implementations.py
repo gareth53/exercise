@@ -72,9 +72,17 @@ def mergesort(arr):
 	return merge(left, right)
 
 
-def sort_dict(dict_list, key):
-	return sorted(dict_list, key=lambda x: x[key])
-
+def sort_dict(dict_list, sort_key=None, sort_keys=None):
+	"""
+	:param dict_list: <list> of <dict>s [{}, {}]
+	:param sort_keys: <list> of <str>
+	:return: <list>
+	"""
+	if sort_key:
+		return sorted(dict_list, key=lambda x: x[sort_key])
+	elif sort_keys:
+		return sorted(dict_list, key=lambda x: "".join([x[key] for key in sort_keys]))
+	return dict_list
 
 
 if __name__ == "__main__":
