@@ -91,10 +91,36 @@ def mergesort(arr):
 	return merge(left, right)
 
 
+def insertionsort(arr):
+	for i in range(1, len(arr)):
+		for j in range(i, 0, -1):
+			if arr[j] < arr[j-1]:
+				arr[j], arr[j-1] = arr[j-1], arr[j]
+			else:
+				break
+	return arr
+
+
+def bucketsort(arr, n=10):
+	"""
+	n = bucket_size
+	"""
+	buckets = {}
+	for a in arr:
+		idx = int(math.floor(a/n))
+		bucket = buckets.get(idx, [])
+		bucket.append(a)
+		buckets[idx] = bucket
+	return_li = []
+	for b in sorted(buckets.keys()):
+		return_li = return_li + insertionsort(buckets[b])
+	return return_li
+
+
 if __name__ == "__main__":
 	# some benchmarking
 	import time
-	li = range(0, 8000)
+	li = list(range(0, 8000))
 	li.reverse()
 
 	def timeit(method):
@@ -111,5 +137,5 @@ if __name__ == "__main__":
 		print(algorithm.__name__)
 		return algorithm(li)
 
-	for algorithm in [bubblesort, selectionsort, mergesort, sorted]:
+	for algorithm in [selectionsort, mergesort, insertionsort, bucketsort, sorted]:
 		run_algo(algorithm)
