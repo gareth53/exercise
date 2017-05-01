@@ -20,7 +20,7 @@ def bubblesort(arr):
 	return arr
 
 
-def selectionsort(arr):
+def selectionsort_old(arr):
 	"""
 	the multiple scan to find the smallest
 	a scan that each time yields the smallest value
@@ -35,6 +35,25 @@ def selectionsort(arr):
 				lowest_idx = idx
 		new_arr.append(arr.pop(lowest_idx))
 	return new_arr
+
+
+def selectionsort(arr):
+	"""
+	this one quicker since it doesn't do a pop
+	just edits the arr that's passed in
+	"""
+	limit = len(arr)
+	for i in range(0, limit):
+		smallest = arr[i]
+		smallest_idx = i
+		for x in range(i+1, limit):
+			this_val = arr[x]
+			if this_val < smallest:
+				smallest = this_val
+				smallest_idx = x
+		arr[i], arr[smallest_idx] = this_val, arr[i]
+	return arr
+
 
 
 def mergesort(arr):
@@ -83,27 +102,14 @@ if __name__ == "__main__":
 	        ts = time.time()
 	        result = method(*args, **kw)
 	        te = time.time()
-	        print('%r %2.2f sec' % (method.__name__, te-ts))
+	        print('%2.2f sec' % (te-ts))
 	        return result
 	    return timed
 
 	@timeit
-	def bubble(li):
-		return bubblesort(li)
+	def run_algo(algorithm):
+		print(algorithm.__name__)
+		return algorithm(li)
 
-	@timeit
-	def selection(li):
-		return selectionsort(li)
-
-	@timeit
-	def merge(li):
-		return mergesort(li)
-
-	@timeit
-	def builtin(li):
-		return sorted(li)
-
-	bubble(li)
-	selection(li)
-	merge(li)
-	builtin(li)
+	for algorithm in [bubblesort, selectionsort, mergesort, sorted]:
+		run_algo(algorithm)
